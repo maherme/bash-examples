@@ -68,10 +68,13 @@ F S UID          PID    PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME C
 ```
 Take into account there are two processes of problem1_org.sh (I named problem1_org.sh the script above), and one is the parent of the other. Remember, the memory map of the child and parent processes are different, so the value of a variable modified in a child process is not modified in its parent. So the assignments "x=$x1" and "y=$y1" will take effect only in the child process, not in the parent process.
 
-The line [ $x1 -gt $x ] && x=$x1 is using the concept of short-circuit evaluation:
-oper1 and oper2 -> if oper1 is "false", oper2 will never be executed, because "false" and "whatever" is "false".
-                   if oper1 is "true", oper2 will be executed, because "true" and "whatever" is "whatever".
-This line can be written as: if [ $x1 -gt $x ]; then x=$x1; fi
+The line `[ $x1 -gt $x ] && x=$x1` is using the concept of short-circuit evaluation:
+
+oper1 and oper2:
+- if oper1 is "false", oper2 will never be executed, because "false" and "whatever" is "false".
+- if oper1 is "true", oper2 will be executed, because "true" and "whatever" is "whatever".
+
+This line can be written as: `if [ $x1 -gt $x ]; then x=$x1; fi`
 
 So this script is intended to print the greatest number of each column for all the pairs of values that the sample_output function is sending to the standard output. But what the script is really doing is printing "0 0", because the variables "x" and "y" are modified in a subshell, so their values are not going to be modified outside the while loop.
 
